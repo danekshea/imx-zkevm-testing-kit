@@ -2,6 +2,7 @@ import { config, orderbook } from "@imtbl/sdk";
 import { providers } from "ethers";
 import { getDefaultProvider, Wallet } from "ethers"; // ethers v5
 import { RPC, environment } from "../config";
+import { getWallet } from "./utils";
 require("dotenv").config();
 
 const orderbookSDK = new orderbook.Orderbook({
@@ -11,9 +12,9 @@ const orderbookSDK = new orderbook.Orderbook({
   },
 });
 
-const provider = getDefaultProvider(RPC);
-
 async function prepareAndSignListing(wallet: Wallet) {
+  const provider = wallet.provider;
+
   const gasPrice = await provider.getGasPrice();
   const nonce = await provider.getTransactionCount(wallet.address);
 
@@ -90,7 +91,7 @@ async function fulfillOrder(wallet: Wallet, orderID: string) {
 }
 
 async function cancelOrder(wallet: Wallet, orderID: string) {
-  const { signableAction }  = await orderbookSDK.prepareOrderCancellations([orderID]);
+  const { signableAction } = await orderbookSDK.prepareOrderCancellations([orderID]);
   const cancellationSignature = await wallet._signTypedData(
     signableAction.message.domain,
     signableAction.message.types,
@@ -101,12 +102,11 @@ async function cancelOrder(wallet: Wallet, orderID: string) {
 }
 
 async function main() {
-  if (process.env.PRIVATE_KEY) {
-    const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
-    //await prepareAndSignListing(wallet);
-    //await cancelOrder(wallet, '018b935f-5f1f-78ec-04dc-f913e17f9985');
-  } else {
-    console.error("No private key found in environment variables");
+  try {
+    const wallet = getWallet();
+    await cancelOrder(wallet, "018b935f-5f1f-78ec-04dc-f913e17f9985");
+  } catch (e) {
+    console.log(e);
   }
 }
 main();
