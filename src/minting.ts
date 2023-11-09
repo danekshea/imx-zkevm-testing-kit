@@ -126,21 +126,64 @@ const getRoyalty = async(provider: Provider, contractAddress: string) => {
 
 const setBaseURI = async(wallet: Wallet, contractAddress:string):Promise<TransactionResponse> => {
   const contract = new ERC721Client(contractAddress);
-  const provider = wallet.provider;
 
   const result = await contract.populateSetBaseURI('ipfs://QmQ3RxhfAw9ca2mX34tFm7hk685EAwprZDDdiYPmfsXnsg');
   const txhash = await wallet.sendTransaction(result);
   return txhash
 }
 
+const getInfo = async(contractAddress:string) => { 
+  const contract = new ERC721Client(contractAddress);
+  const provider = await getRPCProvider();
 
-const wallet = getWallet();
+  const baseURI = await contract.baseURI(provider);
+  const contractURI = await contract.contractURI(provider);
+  const name = await contract.name(provider);
+  const symbol = await contract.symbol(provider);
+  const totalSupply = await contract.totalSupply(provider);
+  const operatorAllowlist = await contract.operatorAllowlist(provider);
+  //const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
+  const defaultAdminRole = await contract.DEFAULT_ADMIN_ROLE(provider);
+  const minterRole = await contract.MINTER_ROLE(provider);
+  //const eip712domain = await contract.eip712Domain(provider);
 
-mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
-  console.log("Minting TXHash:", tx);
+//const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
+//const eip712domain = await contract.eip712Domain(provider, {});
+const eip712domain = await contract.eip712Domain(provider)
+
+const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
+
+  console.log(`BaseURI: ${baseURI}`);
+  console.log(`ContractURI: ${contractURI}`);
+  console.log(`Name: ${name}`);
+  console.log(`Symbol: ${symbol}`);
+  console.log(`TotalSupply: ${totalSupply}`);
+  console.log(`OperatorAllowlist: ${operatorAllowlist}`);
+  console.log(`DomainSeperator: ${domainSeperator}`);
+  console.log(`DefaultAdminRole: ${defaultAdminRole}`);
+  console.log(`MinterRole: ${minterRole}`);
+  console.log(`EIP712Domain: ${eip712domain}`);
+}
+
+
+getInfo("0x5163d6F770B70Fa6F85fB621695F93913613f10C").then((result) => {
 }).catch((err) => {
   console.log(err);
-});
+})
+
+
+// const wallet = getWallet();
+
+
+// getTotalSupply(COLLECTION_ADDRESS).then((result) => {
+//   console.log(result);
+// });
+
+// mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
+//   console.log("Minting TXHash:", tx);
+// }).catch((err) => {
+//   console.log(err);
+// });
 
 
 // mintByID(wallet, COLLECTION_ADDRESS, RPCprovider).then((txhash) => {

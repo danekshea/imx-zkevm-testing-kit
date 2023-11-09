@@ -1,4 +1,4 @@
-import { config, orderbook } from "@imtbl/sdk";
+import { config, orderbook, ListListingParams } from "@imtbl/sdk";
 import { providers } from "ethers";
 import { getDefaultProvider, Wallet } from "ethers"; // ethers v5
 import { RPC, environment } from "../config";
@@ -12,7 +12,7 @@ const orderbookSDK = new orderbook.Orderbook({
   },
 });
 
-async function prepareAndSignListing(wallet: Wallet) {
+const prepareAndSignListing = async(wallet: Wallet) => {
   const provider = wallet.provider;
 
   const gasPrice = await provider.getGasPrice();
@@ -80,7 +80,7 @@ async function prepareAndSignListing(wallet: Wallet) {
   console.log(orderResponse);
 }
 
-async function fulfillOrder(wallet: Wallet, orderID: string) {
+const fulfillOrder = async(wallet: Wallet, orderID: string) => {
   const buyOrder = await orderbookSDK.fulfillOrder("018b648c-6f74-403a-c1d1-3769dfc13ff4", wallet.address, [
     {
       amount: "1000000",
@@ -90,7 +90,7 @@ async function fulfillOrder(wallet: Wallet, orderID: string) {
   console.log(buyOrder);
 }
 
-async function cancelOrder(wallet: Wallet, orderID: string) {
+const cancelOrder = async(wallet: Wallet, orderID: string) => {
   const { signableAction } = await orderbookSDK.prepareOrderCancellations([orderID]);
   const cancellationSignature = await wallet._signTypedData(
     signableAction.message.domain,
@@ -100,6 +100,7 @@ async function cancelOrder(wallet: Wallet, orderID: string) {
   const cancelOrder = await orderbookSDK.cancelOrders([orderID], wallet.address, cancellationSignature);
   console.log(cancelOrder);
 }
+
 
 async function main() {
   try {
