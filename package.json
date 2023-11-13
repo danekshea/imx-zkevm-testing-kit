@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@imtbl/sdk": "^0.28.4",
-    "@imtbl/zkevm-contracts": "^1.2.3"
+    "@imtbl/zkevm-contracts": "latest"
   }
 }

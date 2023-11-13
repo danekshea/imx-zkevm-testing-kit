@@ -1,7 +1,6 @@
 import { blockchainData, config } from "@imtbl/sdk";
 require("dotenv").config();
 
-console.log(process.env.IMMUTABLE_API_KEY);
 const client = new blockchainData.BlockchainData({
   baseConfig: new config.ImmutableConfiguration({
     environment: config.Environment.SANDBOX,
@@ -9,14 +8,66 @@ const client = new blockchainData.BlockchainData({
   }),
 });
 
-const refreshNFTMetadata = async (contractAddress: string, chainName: string, newName: string) => {
+const getActivity = async (chainName: string, activityId: string) => {
+  const activity = await client.getActivity({
+    chainName,
+    activityId
+  });
+  return activity;
+}
+
+const getCollection = async (contractAddress: string, chainName: string) => {
+  const collection = await client.getCollection({
+    chainName,
+    contractAddress,
+  });
+  return collection;
+}
+
+const getMetadata = async (contractAddress: string, chainName: string, metadataId: string) => {
+  const metadata = await client.getMetadata({
+    chainName,
+    contractAddress,
+    metadataId
+  });
+  return metadata;
+}
+
+const getNFT = async (contractAddress: string, chainName: string, tokenId: string) => {
+  const nft = await client.getNFT({
+    contractAddress,
+    chainName,
+    tokenId
+  });
+  return nft;
+}
+
+const getToken = async (contractAddress: string, chainName: string, tokenId: string) => {
+  const token = await client.getToken({
+    contractAddress,
+    chainName,
+  });
+  return token;
+}
+
+const listActivities = async (chainName: string) => {
+  const activities = await client.listActivities({
+    chainName,
+  });
+  return activities;
+}
+
+
+
+
+const refreshNFTMetadata = async (contractAddress: string, chainName: string) => {
   const updatedNFT = await client.refreshNFTMetadata({
     chainName,
     contractAddress,
     refreshNFTMetadataByTokenIDRequest: {
       nft_metadata: [
         {
-          name: newName,
+          name: "newName",
           animation_url: null,
           image: null,
           external_url: null,
@@ -31,7 +82,7 @@ const refreshNFTMetadata = async (contractAddress: string, chainName: string, ne
   return updatedNFT;
 };
 
-const refreshCollectionMetadata = async (contractAddress: string, chainName: string, newName: string) => {
+const refreshCollectionMetadata = async (contractAddress: string, chainName: string) => {
   const updatedCollection = await client.refreshCollectionMetadata({
     chainName: chainName,
     contractAddress: contractAddress,
@@ -49,6 +100,40 @@ const refreshCollectionMetadata = async (contractAddress: string, chainName: str
   });
   return updatedCollection;
 };
+
+const refreshStackedMetadata = async (contractAddress: string, chainName: string) => {
+  const updatedStacked = await client.refreshStackedMetadata({
+    chainName: chainName,
+    contractAddress: contractAddress,
+    refreshMetadataByIDRequest: {
+      metadata: [
+        {
+          name: "Dane's Iguanas",
+          description: "Some description",
+          image: "https://some-url",
+          external_url: "https://some-url", // Note the underscore instead of a dash
+          animation_url: "https://some-url",
+          youtube_url: "https://some-url",
+          attributes: []
+        },
+        {
+          name: "Dane's Iguanas",
+          description: "Some description",
+          image: "https://some-url",
+          external_url: "https://some-url", // Note the underscore instead of a dash
+          animation_url: "https://some-url",
+          youtube_url: "https://some-url",
+          attributes: []
+        }
+      ],
+    }
+  });
+  return updatedStacked;
+};
+
+client.
+
+
 
 const COLLECTION_ADDRESS = "0x66148F9523fb208CF4e5B5953Eb2c6E7296FAC4D";
 

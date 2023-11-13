@@ -6,7 +6,7 @@ import { blockchainData } from '@imtbl/sdk';
 import { getRPCProvider, getWallet } from './utils';
 require('dotenv').config();
 
-const COLLECTION_ADDRESS = '0xe614222467d2be9e4364000Fa39f7A9Fa3Ff7a20';
+const COLLECTION_ADDRESS = '0x23fE6E2fad41cC4Be22c03B094530afD415258A3';
 const DESTINATION_ADDRESS = '0x1d6a7288ec90adefb2b71e419ab9c935b10133f0';
 
 const mintByID = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
@@ -33,7 +33,7 @@ const mintByID = async (wallet: Wallet, contractAddress: string): Promise<Transa
   const requests = [
     {
       to: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a",
-      tokenIds: [1111, 2222, 3333, 4444],
+      tokenIds: [11, 12, 13, 14],
     }
   ];
 
@@ -69,7 +69,7 @@ const mintByBatch = async (wallet:Wallet, contractAddress: string): Promise<Tran
   const mints = [
     {
       to: '0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a',
-      quantity: 5000,
+      quantity: 10,
     }
   ];
 
@@ -142,16 +142,13 @@ const getInfo = async(contractAddress:string) => {
   const symbol = await contract.symbol(provider);
   const totalSupply = await contract.totalSupply(provider);
   const operatorAllowlist = await contract.operatorAllowlist(provider);
-  //const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
+  const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
   const defaultAdminRole = await contract.DEFAULT_ADMIN_ROLE(provider);
   const minterRole = await contract.MINTER_ROLE(provider);
   //const eip712domain = await contract.eip712Domain(provider);
 
 //const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
-//const eip712domain = await contract.eip712Domain(provider, {});
-const eip712domain = await contract.eip712Domain(provider)
-
-const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
+//const eip712domain = await contract.eip712Domain(provider)
 
   console.log(`BaseURI: ${baseURI}`);
   console.log(`ContractURI: ${contractURI}`);
@@ -162,36 +159,45 @@ const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
   console.log(`DomainSeperator: ${domainSeperator}`);
   console.log(`DefaultAdminRole: ${defaultAdminRole}`);
   console.log(`MinterRole: ${minterRole}`);
-  console.log(`EIP712Domain: ${eip712domain}`);
+  //console.log(`EIP712Domain: ${eip712domain}`);
 }
 
 
-getInfo("0x5163d6F770B70Fa6F85fB621695F93913613f10C").then((result) => {
-}).catch((err) => {
-  console.log(err);
-})
 
+
+// getInfo("0x5163d6F770B70Fa6F85fB621695F93913613f10C").then((result) => {
+// }).catch((err) => {
+//   console.log(err);
+// })
 
 // const wallet = getWallet();
+// mintByID(wallet, COLLECTION_ADDRESS).then((txhash) => {
+//   console.log(txhash);
+// }
+// ).catch((err) => {
+//   console.log(err);
+// })
+
+// const wallet = getWallet();
+// grantMinterRole(wallet, COLLECTION_ADDRESS).then((txhash) => {
+//   console.log(txhash);
+// }).catch((err) => {
+//   console.log(err);
+// })
+
 
 
 // getTotalSupply(COLLECTION_ADDRESS).then((result) => {
 //   console.log(result);
 // });
 
-// mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
-//   console.log("Minting TXHash:", tx);
-// }).catch((err) => {
-//   console.log(err);
-// });
+const wallet = getWallet();
+mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
+  console.log("Minting TXHash:", tx);
+}).catch((err) => {
+  console.log(err);
+});
 
-
-// mintByID(wallet, COLLECTION_ADDRESS, RPCprovider).then((txhash) => {
-//     console.log(txhash);
-//   }
-//   ).catch((err) => {
-//     console.log(err);
-//   })
 
 // setBaseURI(provider).then((txhash) => {
 //   console.log(txhash);

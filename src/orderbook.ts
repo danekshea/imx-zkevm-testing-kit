@@ -1,4 +1,4 @@
-import { config, orderbook, ListListingParams } from "@imtbl/sdk";
+import { config, orderbook } from "@imtbl/sdk";
 import { providers } from "ethers";
 import { getDefaultProvider, Wallet } from "ethers"; // ethers v5
 import { RPC, environment } from "../config";
@@ -100,7 +100,6 @@ const cancelOrder = async(wallet: Wallet, orderID: string) => {
   const cancelOrder = await orderbookSDK.cancelOrders([orderID], wallet.address, cancellationSignature);
   console.log(cancelOrder);
 }
-
 
 async function main() {
   try {
