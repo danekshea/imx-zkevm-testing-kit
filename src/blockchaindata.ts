@@ -57,8 +57,13 @@ const listActivities = async (chainName: string) => {
   return activities;
 }
 
-
-
+const listAllNFTOwners = async (chainName: string, fromUpdatedAt) => {
+  const owners = await client.listAllNFTOwners({
+    chainName,
+    fromUpdatedAt,
+  });
+  return owners;
+}
 
 const refreshNFTMetadata = async (contractAddress: string, chainName: string) => {
   const updatedNFT = await client.refreshNFTMetadata({
