@@ -6,8 +6,7 @@ import { blockchainData } from '@imtbl/sdk';
 import { getRPCProvider, getWallet } from './utils';
 require('dotenv').config();
 
-const COLLECTION_ADDRESS = '0x23fE6E2fad41cC4Be22c03B094530afD415258A3';
-const DESTINATION_ADDRESS = '0x1d6a7288ec90adefb2b71e419ab9c935b10133f0';
+const COLLECTION_ADDRESS = '0xe5e2c6ef80122c8036b2f9cd8781d170e80ca970';
 
 const mintByID = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
   const contract = new ERC721Client(contractAddress);
@@ -136,39 +135,25 @@ const getInfo = async(contractAddress:string) => {
   const contract = new ERC721Client(contractAddress);
   const provider = await getRPCProvider();
 
-  const baseURI = await contract.baseURI(provider);
-  const contractURI = await contract.contractURI(provider);
-  const name = await contract.name(provider);
-  const symbol = await contract.symbol(provider);
-  const totalSupply = await contract.totalSupply(provider);
-  const operatorAllowlist = await contract.operatorAllowlist(provider);
-  const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
-  const defaultAdminRole = await contract.DEFAULT_ADMIN_ROLE(provider);
-  const minterRole = await contract.MINTER_ROLE(provider);
-  //const eip712domain = await contract.eip712Domain(provider);
-
-//const domainSeperator = await contract.DOMAIN_SEPARATOR(provider);
-//const eip712domain = await contract.eip712Domain(provider)
-
-  console.log(`BaseURI: ${baseURI}`);
-  console.log(`ContractURI: ${contractURI}`);
-  console.log(`Name: ${name}`);
-  console.log(`Symbol: ${symbol}`);
-  console.log(`TotalSupply: ${totalSupply}`);
-  console.log(`OperatorAllowlist: ${operatorAllowlist}`);
-  console.log(`DomainSeperator: ${domainSeperator}`);
-  console.log(`DefaultAdminRole: ${defaultAdminRole}`);
-  console.log(`MinterRole: ${minterRole}`);
-  //console.log(`EIP712Domain: ${eip712domain}`);
+  console.log('Base URI: ' + (await contract.baseURI(provider).catch(e => 'Call failed')));
+  console.log('Contract URI: ' + (await contract.contractURI(provider).catch(e => 'Call failed')));
+  console.log('Name: ' + (await contract.name(provider).catch(e => 'Call failed')));
+  console.log('Symbol: ' + (await contract.symbol(provider).catch(e => 'Call failed')));
+  console.log('Total Supply: ' + (await contract.totalSupply(provider).catch(e => 'Call failed')));
+  console.log('Operator Allowlist: ' + (await contract.operatorAllowlist(provider).catch(e => 'Call failed')));
+  console.log('Domain Separator: ' + (await contract.DOMAIN_SEPARATOR(provider).catch(e => 'Call failed')));
+  console.log('Default Admin Role: ' + (await contract.DEFAULT_ADMIN_ROLE(provider).catch(e => 'Call failed')));
+  console.log('Minter Role: ' + (await contract.MINTER_ROLE(provider).catch(e => 'Call failed')));
+  console.log('EIP712 Domain: ' + (await contract.eip712Domain(provider).catch(e => 'Call failed')));
 }
 
 
 
 
-// getInfo("0x5163d6F770B70Fa6F85fB621695F93913613f10C").then((result) => {
-// }).catch((err) => {
-//   console.log(err);
-// })
+getInfo(COLLECTION_ADDRESS).then((result) => {
+}).catch((err) => {
+  console.log(err);
+})
 
 // const wallet = getWallet();
 // mintByID(wallet, COLLECTION_ADDRESS).then((txhash) => {
@@ -191,12 +176,12 @@ const getInfo = async(contractAddress:string) => {
 //   console.log(result);
 // });
 
-const wallet = getWallet();
-mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
-  console.log("Minting TXHash:", tx);
-}).catch((err) => {
-  console.log(err);
-});
+// const wallet = getWallet();
+// mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
+//   console.log("Minting TXHash:", tx);
+// }).catch((err) => {
+//   console.log(err);
+// });
 
 
 // setBaseURI(provider).then((txhash) => {
