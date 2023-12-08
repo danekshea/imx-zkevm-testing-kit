@@ -31,7 +31,7 @@ const mintByID = async (wallet: Wallet, contractAddress: string): Promise<Transa
   const requests = [
     {
       to: "0xd087DE864C9723045A82DEf0566A0bB6436905Bd",
-      tokenIds: [6, 7],
+      tokenIds: [11, 12, 13],
     }
   ];
 
@@ -122,11 +122,11 @@ const getRoyalty = async(provider: Provider, contractAddress: string) => {
     return result;
 }
 
-const setBaseURI = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
+const setBaseURI = async (wallet: Wallet, contractAddress: string, url: string): Promise<TransactionResponse> => {
   const contract = new ERC721Client(contractAddress);
 
   // Get the transaction data from the contract
-  const result = await contract.populateSetBaseURI('https://aqua-coastal-wolverine-421.mypinata.cloud/ipfs/QmWHYv8w8fCEXMEhDgDqHTruKrQnUfqbVYqnPBzhXmm8QS');
+  const result = await contract.populateSetBaseURI(url);
 
   // Modify the transaction data with gas overrides
   const txhash = await wallet.sendTransaction({ ...result, ...gasOverrides });
@@ -184,7 +184,8 @@ mintByID(wallet, collectionAddress).then((txhash) => {
 // });
 
 // const wallet = getWallet();
-// setBaseURI(wallet, collectionAddress).then((txhash) => {
+// const url = 'https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/metadata/';
+// setBaseURI(wallet, collectionAddress, url).then((txhash) => {
 //   console.log(txhash);
 // }
 // ).catch((err) => {
