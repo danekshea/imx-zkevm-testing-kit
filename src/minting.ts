@@ -76,7 +76,7 @@ const mintByBatch = async (wallet:Wallet, contractAddress: string): Promise<Tran
   const populatedTransaction = await contract.populateMintBatchByQuantity(
     mints
   );
-  const txhash = await wallet.sendTransaction(populatedTransaction);
+  const txhash = await wallet.sendTransaction({...populatedTransaction, ...gasOverrides});
   console.log(txhash); // To get the TransactionResponse value
   return txhash;
 };
@@ -110,7 +110,7 @@ const setRoyalty = async(wallet: Wallet, contractAddress: string):Promise<Transa
   ]
   const royaltyTX = await contract.populateSetNFTRoyaltyReceiver(requests[0].tokenId, requests[0].receiver, requests[0].feeNumerator);
 
-  const txhash = await wallet.sendTransaction(royaltyTX);
+  const txhash = await wallet.sendTransaction({...royaltyTX, ...gasOverrides});
   
   return txhash;
 }
@@ -133,7 +133,6 @@ const setBaseURI = async (wallet: Wallet, contractAddress: string, url: string):
 
   return txhash;
 }
-
 
 const getInfo = async(contractAddress:string) => { 
   const contract = new ERC721Client(contractAddress);
