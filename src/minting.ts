@@ -1,12 +1,11 @@
 import { getDefaultProvider, Wallet } from 'ethers'; // ethers v5
 import { Provider, TransactionResponse } from '@ethersproject/providers'; // ethers v5
 import { ERC721Client } from '@imtbl/zkevm-contracts';
+import { collectionAddress, gasOverrides } from '../config';
 import { RPC } from '../config';
 import { blockchainData } from '@imtbl/sdk';
 import { getRPCProvider, getWallet } from './utils';
 require('dotenv').config();
-
-const COLLECTION_ADDRESS = '0xe5e2c6ef80122c8036b2f9cd8781d170e80ca970';
 
 const mintByID = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
   const contract = new ERC721Client(contractAddress);
@@ -31,15 +30,15 @@ const mintByID = async (wallet: Wallet, contractAddress: string): Promise<Transa
   // Construct the mint requests
   const requests = [
     {
-      to: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a",
-      tokenIds: [11, 12, 13, 14],
+      to: "0xd087DE864C9723045A82DEf0566A0bB6436905Bd",
+      tokenIds: [6, 7],
     }
   ];
 
   // Rather than be executed directly, contract write functions on the SDK client are returned
   // as populated transactions so that users can implement their own transaction signing logic.
   const populatedTransaction = await contract.populateMintBatch(requests);
-  const result = await wallet.sendTransaction(populatedTransaction);
+  const result = await wallet.sendTransaction({ ...populatedTransaction, ...gasOverrides });
   console.log(result); // To get the TransactionResponse value
   return result;
 };
@@ -87,7 +86,7 @@ const grantMinterRole = async(wallet: Wallet, contractAddress: string): Promise<
     const tx = await contract.populateGrantMinterRole(wallet.address);
     console.log(`Granting minter role to ${wallet.address} on ${contractAddress}...`);
 
-    const txhash = await wallet.sendTransaction(tx);
+    const txhash = await wallet.sendTransaction({...tx, ...gasOverrides});
     console.log(`Transaction hash: ${txhash.hash}`);
 
     return txhash;
@@ -123,13 +122,18 @@ const getRoyalty = async(provider: Provider, contractAddress: string) => {
     return result;
 }
 
-const setBaseURI = async(wallet: Wallet, contractAddress:string):Promise<TransactionResponse> => {
+const setBaseURI = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
   const contract = new ERC721Client(contractAddress);
 
-  const result = await contract.populateSetBaseURI('ipfs://QmQ3RxhfAw9ca2mX34tFm7hk685EAwprZDDdiYPmfsXnsg');
-  const txhash = await wallet.sendTransaction(result);
-  return txhash
+  // Get the transaction data from the contract
+  const result = await contract.populateSetBaseURI('https://aqua-coastal-wolverine-421.mypinata.cloud/ipfs/QmWHYv8w8fCEXMEhDgDqHTruKrQnUfqbVYqnPBzhXmm8QS');
+
+  // Modify the transaction data with gas overrides
+  const txhash = await wallet.sendTransaction({ ...result, ...gasOverrides });
+
+  return txhash;
 }
+
 
 const getInfo = async(contractAddress:string) => { 
   const contract = new ERC721Client(contractAddress);
@@ -148,43 +152,39 @@ const getInfo = async(contractAddress:string) => {
 }
 
 
+// getInfo(collectionAddress).then((result) => {
+// }).catch((err) => {
+//   console.log(err);
+// })
 
-
-getInfo(COLLECTION_ADDRESS).then((result) => {
-}).catch((err) => {
+const wallet = getWallet();
+mintByID(wallet, collectionAddress).then((txhash) => {
+  console.log(txhash);
+}
+).catch((err) => {
   console.log(err);
 })
 
 // const wallet = getWallet();
-// mintByID(wallet, COLLECTION_ADDRESS).then((txhash) => {
-//   console.log(txhash);
-// }
-// ).catch((err) => {
-//   console.log(err);
-// })
-
-// const wallet = getWallet();
-// grantMinterRole(wallet, COLLECTION_ADDRESS).then((txhash) => {
+// grantMinterRole(wallet, collectionAddress).then((txhash) => {
 //   console.log(txhash);
 // }).catch((err) => {
 //   console.log(err);
 // })
 
-
-
-// getTotalSupply(COLLECTION_ADDRESS).then((result) => {
+// getTotalSupply(collectionAddress).then((result) => {
 //   console.log(result);
 // });
 
 // const wallet = getWallet();
-// mintByBatch(wallet, COLLECTION_ADDRESS).then((tx) => {
+// mintByBatch(wallet, collectionAddress).then((tx) => {
 //   console.log("Minting TXHash:", tx);
 // }).catch((err) => {
 //   console.log(err);
 // });
 
-
-// setBaseURI(provider).then((txhash) => {
+// const wallet = getWallet();
+// setBaseURI(wallet, collectionAddress).then((txhash) => {
 //   console.log(txhash);
 // }
 // ).catch((err) => {

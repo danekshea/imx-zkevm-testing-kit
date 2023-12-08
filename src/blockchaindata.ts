@@ -1,12 +1,6 @@
 import { blockchainData, config } from "@imtbl/sdk";
+import { collectionAddress } from "../config";
 require("dotenv").config();
-
-const client = new blockchainData.BlockchainData({
-  baseConfig: new config.ImmutableConfiguration({
-    environment: config.Environment.SANDBOX,
-    apiKey: process.env.IMMUTABLE_API_KEY,
-  }),
-});
 
 const getActivity = async (chainName: string, activityId: string) => {
   const activity = await client.getActivity({
@@ -57,7 +51,7 @@ const listActivities = async (chainName: string) => {
   return activities;
 }
 
-const listAllNFTOwners = async (chainName: string, fromUpdatedAt) => {
+const listAllNFTOwners = async (chainName: string, fromUpdatedAt: string) => {
   const owners = await client.listAllNFTOwners({
     chainName,
     fromUpdatedAt,
@@ -87,23 +81,24 @@ const refreshNFTMetadata = async (contractAddress: string, chainName: string) =>
   return updatedNFT;
 };
 
-const refreshCollectionMetadata = async (contractAddress: string, chainName: string) => {
-  const updatedCollection = await client.refreshCollectionMetadata({
-    chainName: chainName,
-    contractAddress: contractAddress,
+const refreshCollectionMetadata = async (client: blockchainData.BlockchainData, chainName: string, contractAddress: string) => {
+  const collection = await client.getCollection({ chainName: chainName, contractAddress: contractAddress })
+  return client.refreshCollectionMetadata({
+    chainName,
+    contractAddress,
     refreshCollectionMetadataRequest: {
       collection_metadata: {
-        name: "Dane's Iguanas",
-        symbol: "BASP",
-        description: "Some description",
-        image: "https://some-url",
-        external_link: "https://some-url",
-        contract_uri: "https://some-url",
-        base_uri: "https://some-url",
-      },
-    },
-  });
-  return updatedCollection;
+        base_uri: 'https://aqua-coastal-wolverine-421.mypinata.cloud/ipfs/QmWHYv8w8fCEXMEhDgDqHTruKrQnUfqbVYqnPBzhXmm8QS',
+        // do not modify any other field. Still required to be provided
+        name: collection.result.name,
+        symbol: collection.result.symbol,
+        description: collection.result.description,
+        image: collection.result.image,
+        contract_uri: collection.result.contract_uri || null,
+        external_link: collection.result.external_link,
+      }
+    }
+  })
 };
 
 const refreshStackedMetadata = async (contractAddress: string, chainName: string) => {
@@ -136,14 +131,18 @@ const refreshStackedMetadata = async (contractAddress: string, chainName: string
   return updatedStacked;
 };
 
-client.
 
+const client = new blockchainData.BlockchainData({
+  baseConfig: {
+    environment: config.Environment.SANDBOX,
+    apiKey: process.env.IMMUTABLE_SECRET_API_KEY,
+    publishableKey: process.env.IMMUTABLE_PUBLISHABLE_API_KEY,
+  },
+});
 
-
-const COLLECTION_ADDRESS = "0x66148F9523fb208CF4e5B5953Eb2c6E7296FAC4D";
 
 const main = async () => {
-  const result = await refreshCollectionMetadata(COLLECTION_ADDRESS, "imtbl-zkevm-testnet", "Dane's Iguanas");
+  const result = await refreshCollectionMetadata(client, "imtbl-zkevm-testnet", collectionAddress);
   return result;
 };
 
