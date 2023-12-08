@@ -1,0 +1,20 @@
+{
+    "name": "Polish Opening: Czech Defense",
+    "description": null,
+    "image": "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/79.svg",
+    "external_link": null,
+    "animation_url": null,
+    "youtube_url": null,
+    "attributes": {
+        "traits": [
+            {
+                "trait_type": "eco",
+                "value": "A00"
+            },
+            {
+                "trait_type": "FEN",
+                "value": "rnbqkbnr/ppp2ppp/3p4/4p3/1P6/8/PBPPPPPP/RN1QKBNR w KQkq - 0 3"
+            }
+        ]
+    }
+}

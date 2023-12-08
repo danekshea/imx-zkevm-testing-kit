@@ -1,0 +1,20 @@
+{
+    "name": "Grob Opening: Grob Gambit, Richter-Grob Gambit",
+    "description": null,
+    "image": "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/32.svg",
+    "external_link": null,
+    "animation_url": null,
+    "youtube_url": null,
+    "attributes": {
+        "traits": [
+            {
+                "trait_type": "eco",
+                "value": "A00"
+            },
+            {
+                "trait_type": "FEN",
+                "value": "rnbqkbnr/pp2pppp/2p5/8/2p3P1/1P6/P2PPPBP/RNBQK1NR b KQkq - 0 4"
+            }
+        ]
+    }
+}

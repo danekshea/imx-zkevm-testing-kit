@@ -1,0 +1,20 @@
+{
+    "name": "Lasker Simul Special",
+    "description": null,
+    "image": "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/70.svg",
+    "external_link": null,
+    "animation_url": null,
+    "youtube_url": null,
+    "attributes": {
+        "traits": [
+            {
+                "trait_type": "eco",
+                "value": "A00"
+            },
+            {
+                "trait_type": "FEN",
+                "value": "rnbqkbnr/ppppppp1/8/7p/8/6P1/PPPPPP1P/RNBQKBNR w KQkq h6 0 2"
+            }
+        ]
+    }
+}

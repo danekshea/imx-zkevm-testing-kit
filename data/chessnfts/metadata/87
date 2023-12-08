@@ -1,0 +1,20 @@
+{
+    "name": "Polish Opening: Orangutan-Diemer Gambit",
+    "description": null,
+    "image": "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/87.svg",
+    "external_link": null,
+    "animation_url": null,
+    "youtube_url": null,
+    "attributes": {
+        "traits": [
+            {
+                "trait_type": "eco",
+                "value": "A00"
+            },
+            {
+                "trait_type": "FEN",
+                "value": "rnb1kbnr/ppp2ppp/3q4/4p3/1P2p3/P4P2/1BPP2PP/RN1QKBNR b KQkq - 0 5"
+            }
+        ]
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "name": "Polish Opening: Tartakower Gambit, Brinckmann Variation",
+    "description": null,
+    "image": "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/97.svg",
+    "external_link": null,
+    "animation_url": null,
+    "youtube_url": null,
+    "attributes": {
+        "traits": [
+            {
+                "trait_type": "eco",
+                "value": "A00"
+            },
+            {
+                "trait_type": "FEN",
+                "value": "r1b1k1nr/ppppq2p/2n2pp1/4pP2/1bB1P3/8/PBPP2PP/RN1QK1NR w KQkq - 0 7"
+            }
+        ]
+    }
+}
