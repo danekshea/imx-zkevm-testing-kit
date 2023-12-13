@@ -175,12 +175,12 @@ const getInfo = async(contractAddress:string) => {
 //   console.log(result);
 // });
 
-const wallet = getWallet();
-mintByBatch(wallet, collectionAddress).then((tx) => {
-  console.log("Minting TXHash:", tx);
-}).catch((err) => {
-  console.log(err);
-});
+// const wallet = getWallet();
+// mintByBatch(wallet, collectionAddress).then((tx) => {
+//   console.log("Minting TXHash:", tx);
+// }).catch((err) => {
+//   console.log(err);
+// });
 
 // const wallet = getWallet();
 // const url = 'https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/metadata/';
