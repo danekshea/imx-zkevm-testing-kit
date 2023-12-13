@@ -3,6 +3,7 @@ import { providers } from "ethers";
 import { getDefaultProvider, Wallet } from "ethers"; // ethers v5
 import { RPC, environment } from "../config";
 import { getWallet } from "./utils";
+import { gasOverrides } from "../config";
 require("dotenv").config();
 
 const orderbookSDK = new orderbook.Orderbook({
