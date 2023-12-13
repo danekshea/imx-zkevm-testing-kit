@@ -5,8 +5,8 @@ This is for testing different SDKs for the IMX zkEVM
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/projectname.git
-cd projectname
+git clone https://github.com/danekshea/imx-zkevm-testing-kit/
+cd imx-zkevm-testing-kit
 npm install
 ```
 
