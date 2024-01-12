@@ -1,6 +1,6 @@
 import { collectionAddress } from "../../config";
 import { getWallet } from "../utils";
-import { ERC721Client } from "@imtbl/zkevm-contracts";
+import { ERC721Client } from "@imtbl/contracts";
 
 const destinationAddress = "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a";
 

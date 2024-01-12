@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@imtbl/sdk": "^0.35.5",
-    "@imtbl/zkevm-contracts": "latest"
+    "@imtbl/contracts": "^2.1.1",
+    "@imtbl/sdk": "^0.35.5"
   }
 }

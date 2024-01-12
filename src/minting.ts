@@ -1,6 +1,6 @@
 import { getDefaultProvider, Wallet } from 'ethers'; // ethers v5
 import { Provider, TransactionResponse } from '@ethersproject/providers'; // ethers v5
-import { ERC721Client } from '@imtbl/zkevm-contracts';
+import { ERC721Client } from '@imtbl/contracts';
 import { collectionAddress, gasOverrides } from '../config';
 import { RPC } from '../config';
 import { blockchainData } from '@imtbl/sdk';

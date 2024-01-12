@@ -4,7 +4,7 @@ export const RPC = "https://rpc.testnet.immutable.com";
 
 export const environment = config.Environment.SANDBOX;
 
-export const collectionAddress:string = '0x908aab24939160aca78c4267ddc291c5891b952d';
+export const collectionAddress:string = '0x175A25Fed791540d04860eF8a152bA4D9d45e598';
 
 export const gasOverrides = {
   maxPriorityFeePerGas: 100e9, // 100 Gwei
