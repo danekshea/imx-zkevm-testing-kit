@@ -22,8 +22,8 @@ const prepareAndSignListing = async(wallet: Wallet) => {
   //Create the sell asset
   const sellAsset: orderbook.ERC721Item = {
     type: "ERC721",
-    contractAddress: "0xE6feF103604f068F35c9417DE2d9ABFeFD4Ff958",
-    tokenId: "340282366920938463463374607431768221408",
+    contractAddress: "0x908aAb24939160ACa78C4267ddc291C5891B952d",
+    tokenId: "1",
   };
 
   //Create the buy asset
@@ -73,22 +73,41 @@ const prepareAndSignListing = async(wallet: Wallet) => {
     makerFees: [
       {
         amount: "100",
-        recipient: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a", // Replace address with your own marketplace address
+        recipientAddress: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a", // Replace address with your own marketplace address
       },
     ],
   });
-  console.log(`Order response: ${await orderResponse}`);
+  console.log(`Order response: ${orderResponse}`);
   console.log(orderResponse);
 }
 
 const fulfillOrder = async(wallet: Wallet, orderID: string) => {
-  const buyOrder = await orderbookSDK.fulfillOrder("018b648c-6f74-403a-c1d1-3769dfc13ff4", wallet.address, [
+  
+  const provider = wallet.provider;
+
+  const gasPrice = await provider.getGasPrice();
+  const nonce = await provider.getTransactionCount(wallet.address);
+  
+  const result = await orderbookSDK.fulfillOrder(orderID, wallet.address, [
     {
       amount: "1000000",
-      recipient: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a", // Replace address with your own marketplace address
+      recipientAddress: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a", // Replace address with your own marketplace address
     },
   ]);
-  console.log(buyOrder);
+  
+  //Go through and find the transactions and actually build it and return the JSON, this will sign the approval
+  for (const action of result.actions) {
+    if (action.type === orderbook.ActionType.TRANSACTION) {
+      console.log("Detected transaction, building and sending...");
+      const builttx = await action.buildTransaction();
+      builttx.gasPrice = gasPrice;
+      builttx.nonce = nonce;
+      console.log(builttx);
+      const signedtx = await wallet.signTransaction(builttx);
+      const receipt = await provider.sendTransaction(signedtx);
+      console.log(`Transaction hash: ${receipt.hash}`);
+    }
+  }
 }
 
 const cancelOrder = async(wallet: Wallet, orderID: string) => {
@@ -102,12 +121,25 @@ const cancelOrder = async(wallet: Wallet, orderID: string) => {
   console.log(cancelOrder);
 }
 
-async function main() {
-  try {
-    const wallet = getWallet();
-    await cancelOrder(wallet, "018b935f-5f1f-78ec-04dc-f913e17f9985");
-  } catch (e) {
-    console.log(e);
-  }
-}
-main();
+// const wallet = getWallet();
+// prepareAndSignListing(wallet).then(() => {
+// }
+// ).catch((err) => {
+//   console.log(err);
+// })
+
+// const wallet = getWallet();
+// fulfillOrder(wallet, '018cfdbe-6345-ab36-cfa6-794d1cbcd46e').then(() => {
+// }
+// ).catch((err) => {
+//   console.log(err);
+// })
+
+// const wallet = getWallet();
+// cancelOrder(wallet, '018cfdbc-8769-fa82-0e75-35b2baf4552c').then((txhash) => {
+//   console.log(txhash);
+// }
+// ).catch((err) => {
+//   console.log(err);
+// })
+
