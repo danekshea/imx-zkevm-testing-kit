@@ -23,7 +23,7 @@ const prepareAndSignListing = async(wallet: Wallet) => {
   const sellAsset: orderbook.ERC721Item = {
     type: "ERC721",
     contractAddress: "0x908aAb24939160ACa78C4267ddc291C5891B952d",
-    tokenId: "1",
+    tokenId: "51",
   };
 
   //Create the buy asset
@@ -125,19 +125,18 @@ const cancelOrder = async(wallet: Wallet, orderID: string) => {
 // prepareAndSignListing(wallet).then(() => {
 // }
 // ).catch((err) => {
-//   console.log(err);
+//   console.log(err.body.details);
 // })
 
 // const wallet = getWallet();
-// fulfillOrder(wallet, '018cfdbe-6345-ab36-cfa6-794d1cbcd46e').then(() => {
+// fulfillOrder(wallet, '018d02b8-da57-4bfc-41ad-781b1c60fd82').then(() => {
 // }
 // ).catch((err) => {
 //   console.log(err);
 // })
 
 // const wallet = getWallet();
-// cancelOrder(wallet, '018cfdbc-8769-fa82-0e75-35b2baf4552c').then((txhash) => {
-//   console.log(txhash);
+// cancelOrder(wallet, '018d02bb-773c-d168-387b-bd21f3848dfa').then((txhash) => {
 // }
 // ).catch((err) => {
 //   console.log(err);
