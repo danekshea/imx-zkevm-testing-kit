@@ -26,7 +26,7 @@ const prepareAndSignListing = async(wallet: Wallet) => {
     tokenId: "51",
   };
 
-  //Create the buy asset
+  //Create the buy asset  
   const buyAsset: orderbook.NativeItem = {
     type: "NATIVE",
     amount: "10000000000000",
@@ -121,12 +121,12 @@ const cancelOrder = async(wallet: Wallet, orderID: string) => {
   console.log(cancelOrder);
 }
 
-// const wallet = getWallet();
-// prepareAndSignListing(wallet).then(() => {
-// }
-// ).catch((err) => {
-//   console.log(err.body.details);
-// })
+const wallet = getWallet();
+prepareAndSignListing(wallet).then(() => {
+}
+).catch((err) => {
+  console.log(err);
+})
 
 // const wallet = getWallet();
 // fulfillOrder(wallet, '018d02b8-da57-4bfc-41ad-781b1c60fd82').then(() => {
