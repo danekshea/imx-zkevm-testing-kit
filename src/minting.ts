@@ -92,7 +92,9 @@ const mintByMintingAPI = async (contractAddress: string): Promise<blockchainData
       assets: [
         {
           owner_address: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a",
-          reference_id: "3",
+          reference_id: "1",
+          //Remove token_id line if you want to batch mint
+          token_id: "2",
           metadata: {
             name: "Amar Gambit",
             description: null,
