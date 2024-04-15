@@ -5,10 +5,10 @@ import { ERC721Client } from "@imtbl/contracts";
 const destinationAddress = "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a";
 
 export const gasOverrides = {
-    maxPriorityFeePerGas: 100e9, // 100 Gwei
-    maxFeePerGas: 150e9,
-    gasLimit: 400000, // Set an appropriate gas limit for your transaction
-  };
+  maxPriorityFeePerGas: 100e9, // 100 Gwei
+  maxFeePerGas: 150e9,
+  gasLimit: 400000, // Set an appropriate gas limit for your transaction
+};
 
 const batchMintChessNFTs = async () => {
   const wallet = getWallet();
@@ -29,7 +29,7 @@ const batchMintChessNFTs = async () => {
   const mints = [
     {
       to: destinationAddress,
-      quantity: 100,
+      quantity: 10,
     },
   ];
 
@@ -39,11 +39,12 @@ const batchMintChessNFTs = async () => {
   const txhash = await wallet.sendTransaction({ ...populatedTransaction, ...gasOverrides });
   console.log(txhash); // To get the TransactionResponse value
   return txhash;
-}
+};
 
-
-batchMintChessNFTs().then((result) => {
+batchMintChessNFTs()
+  .then((result) => {
     console.log(result);
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error);
-});
+  });

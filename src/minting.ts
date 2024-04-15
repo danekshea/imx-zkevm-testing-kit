@@ -188,9 +188,9 @@ const getInfo = async (contractAddress: string) => {
   console.log("EIP712 Domain: " + (await contract.eip712Domain(provider).catch((e) => "Call failed")));
 };
 
-mintByMintingAPI(collectionAddress).then((result) => {
-  console.log(result);
-});
+// mintByMintingAPI(collectionAddress).then((result) => {
+//   console.log(result);
+// });
 
 // getInfo(collectionAddress).then((result) => {
 // }).catch((err) => {

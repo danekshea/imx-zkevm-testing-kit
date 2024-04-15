@@ -6,7 +6,7 @@ export const API_URL = "https://api.sandbox.immutable.com";
 
 export const environment = config.Environment.SANDBOX;
 
-export const collectionAddress: string = "0xa8d248fa82e097df14b3bcda5515af97d4a62365";
+export const collectionAddress: string = "0x88b87272649b3495d99b1702f358286b19f8c3da";
 
 export const mintingAPIAddressSandbox: string = "0x9CcFbBaF5509B1a03826447EaFf9a0d1051Ad0CF";
 
