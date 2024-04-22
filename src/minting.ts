@@ -6,6 +6,7 @@ import { RPC } from "../config";
 import { blockchainData, config as sdkConfig } from "@imtbl/sdk";
 import { Types } from "@imtbl/sdk/dist/blockchain_data";
 import { getRPCProvider, getWallet } from "./utils";
+import { v4 as uuidv4 } from "uuid";
 require("dotenv").config();
 
 const mintByID = async (wallet: Wallet, contractAddress: string): Promise<TransactionResponse> => {
@@ -85,37 +86,31 @@ const mintByMintingAPI = async (contractAddress: string): Promise<blockchainData
 
   const chainName = "imtbl-zkevm-testnet";
 
+  const uuid = uuidv4();
+
   const response = await client.createMintRequest({
     chainName,
     contractAddress,
     createMintRequestRequest: {
       assets: [
         {
-          owner_address: "0x42c2d104C05A9889d79Cdcd82F69D389ea24Db9a",
-          reference_id: "1",
+          owner_address: "0x9648d4bf782c02bf140562711ae138e3ad113b8a",
+          reference_id: uuid,
           //Remove token_id line if you want to batch mint
-          token_id: "2",
+          //token_id: "2",
           metadata: {
-            name: "Amar Gambit",
+            name: "Homer",
             description: null,
-            image: "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/images/1.svg",
-            animation_url: null,
+            image: "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/metadata/homer.gif",
+            animation_url: "https://raw.githubusercontent.com/danekshea/imx-zkevm-testing-kit/master/data/chessnfts/metadata/homer2.gif",
             youtube_url: null,
-            attributes: [
-              {
-                trait_type: "eco",
-                value: "A00",
-              },
-              {
-                trait_type: "FEN",
-                value: "rn1qkbnr/ppp2ppp/8/3p4/5p2/6PB/PPPPP2P/RNBQK2R w KQkq - 0 5",
-              },
-            ],
+            attributes: [],
           },
         },
       ],
     },
   });
+  console.log(`Mint request sent with UUID: ${uuid}`);
   return response;
 };
 
@@ -188,9 +183,9 @@ const getInfo = async (contractAddress: string) => {
   console.log("EIP712 Domain: " + (await contract.eip712Domain(provider).catch((e) => "Call failed")));
 };
 
-// mintByMintingAPI(collectionAddress).then((result) => {
-//   console.log(result);
-// });
+mintByMintingAPI(collectionAddress).then((result) => {
+  console.log(result);
+});
 
 // getInfo(collectionAddress).then((result) => {
 // }).catch((err) => {
